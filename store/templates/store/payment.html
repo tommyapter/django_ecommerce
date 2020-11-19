@@ -1,0 +1,70 @@
+{% extends 'store/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="row" >
+
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+
+        <form id="form">
+
+
+          <div id="shipping-info">
+            <hr>
+            <p><strong>Credit Card Information:</strong></p>
+            <hr>
+            <div class="form-field">
+              <input class="form-control" type="text" name="nameoncard" placeholder="Name on Card..">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="text" name="cardnumber" placeholder="Card Number..">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="text" name="expirationmonth" placeholder="MM">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="text" name="expirationyear" placeholder="YY">
+            </div>
+            <div class="form-field">
+              <input class="form-control" type="text" name="securitycode" placeholder="Security Code">
+            </div>
+          </div>
+
+          <hr>
+
+        </form>
+
+        <a class="btn btn-success btn-block" href="{% url 'process_order' %}" role="button">Submit Payment</a>
+
+
+
+			</div>
+		</div>
+
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'checkout' %}">&#x2190; Edit Shipping Address</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+					<div style="flex:2"><p>{{item.product.name}}</p></div>
+					<div style="flex:1"><p>${{item.product.price|intcomma}}</p></div>
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+				{% endfor %}
+				<h5>Items:   {{order.get_cart_items}}</h5>
+				<h5>Total:   ${{order.get_cart_total|intcomma}}</h5>
+        <h5>Shipping Address:   {{shipping.address}}, {{shipping.city}}, {{shipping.state}}, {{shipping.zipcode}} </h5>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
